@@ -3,21 +3,9 @@ from statistics import mean
 
 with open('task19.csv', newline='') as f:
     data = [row for row in csv.reader(f, delimiter=';')]
-#print(*data, sep = "\n")
-dist, gasoline = 0, 0
-list_from_Osinki = []
-list_to_Berezki = []
-for x in data[1::]:
-    if 7 <= int(x[0].split()[0]) <= 9:
-        dist += int(x[3])
-    if 1 <= int(x[0].split()[0]) <= 3:
-        gasoline += int(x[4])
-    if x[1] == "Осинки":
-        list_from_Osinki.append(int(x[-1]))
-    if x[2] == "Березки":
-        list_to_Berezki.append(int(x[-1]))
-print(f"1: {dist}\n"
-      f"2: {mean(list_from_Osinki)}\n"
-      f"3: {gasoline}\n"
-      f"4: {mean(list_to_Berezki)}\n")
-
+    
+data = data[1::]
+print(f"Cуммарное расстояние с 7 по 9 октября: {sum([int(item[3]) for item in list(filter(lambda x: 7 <= int(x[0].split()[0]) <= 9, data))])}\n"
+      f"Cредняя масса груза из города Осинки: {mean([int(item[-1]) for item in list(filter(lambda x: x[1] == 'Осинки', data))])}\n"
+      f"Cуммарный расход бензина с 1 по 3 октября: {sum([int(item[4]) for item in list(filter(lambda x: 1 <= int(x[0].split()[0]) <= 3, data))])}\n"
+      f"Cредняя масса груза в город Березки: {mean([int(item[-1]) for item in list(filter(lambda x: x[2] == 'Березки', data))])}\n")
